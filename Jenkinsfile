@@ -8,13 +8,6 @@ pipeline {
             }
         }
 
-        stage('Build React App') {
-            steps {
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t link-hub-frontend:latest .'
@@ -23,21 +16,31 @@ pipeline {
 
         stage('Stop Old Container') {
             steps {
-                sh '''
-                if [ $(docker ps -aq -f name=link-hub-frontend) ]; then
-                    docker stop link-hub-frontend || true
-                    docker rm link-hub-frontend || true
-                fi
-                '''
+                script {
+                    sh '''
+                    if [ $(docker ps -aq -f name=link-hub-frontend) ]; then
+                        docker stop link-hub-frontend || true
+                        docker rm link-hub-frontend || true
+                    fi
+                    '''
+                }
             }
         }
 
         stage('Run New Container') {
             steps {
-                sh '''
-                docker run -d --name link-hub-frontend -p 3000:80 link-hub-frontend:latest
-                '''
+                sh 'docker run -d --name link-hub-frontend -p 3001:80 link-hub-frontend:latest'
             }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Pipeline failed! Cleaning up...'
+            sh 'docker system prune -f || true'
+        }
+        success {
+            echo 'Deployment successful!'
         }
     }
 }
