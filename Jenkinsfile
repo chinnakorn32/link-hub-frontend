@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git 'https://github.com/chinnakorn32/link-hub-front-end.git'
+            }
+        }
+
+        stage('Build React App') {
+            steps {
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t link-hub-frontend:latest .'
+            }
+        }
+
+        stage('Stop Old Container') {
+            steps {
+                sh '''
+                if [ $(docker ps -aq -f name=link-hub-frontend) ]; then
+                    docker stop link-hub-frontend || true
+                    docker rm link-hub-frontend || true
+                fi
+                '''
+            }
+        }
+
+        stage('Run New Container') {
+            steps {
+                sh '''
+                docker run -d --name link-hub-frontend -p 3000:80 link-hub-frontend:latest
+                '''
+            }
+        }
+    }
+}
