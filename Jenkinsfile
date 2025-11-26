@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git 'https://github.com/chinnakorn32/link-hub-front-end.git'
+                git branch: 'main',
+                    url: 'https://github.com/chinnakorn32/link-hub-frontend.git',
+                    credentialsId: 'd0f2ff5b-bcce-4c7f-b616-15ca853ce22a'
             }
         }
 
