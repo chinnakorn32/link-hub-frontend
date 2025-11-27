@@ -86,19 +86,19 @@ const Login: React.FC = () => {
                             </Button>
                         </Form.Item>
 
-                        <div className="text-center">
+                        {/* <div className="text-center">
                             <span className="text-gray-600">Don't have an account? </span>
                             <Link to="/register" className="text-blue-600 font-semibold hover:text-blue-700">
                                 Register here
                             </Link>
-                        </div>
+                        </div> */}
                     </Form>
                 </Card>
 
                 {/* Footer */}
-                <div className="text-center mt-6 text-blue-100">
+                {/* <div className="text-center mt-6 text-blue-100">
                     <p>© 2024 Link Hub Management System</p>
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -214,7 +214,7 @@ const LinkForm: React.FC = () => {
             </Card>
 
             {/* Preview Card */}
-                <Card
+                {/* <Card
                     title={<span className="font-semibold">Preview</span>}
                     className="shadow-md mt-6"
                 >
@@ -257,7 +257,7 @@ const LinkForm: React.FC = () => {
                             );
                         }}
                     </Form.Item>
-                </Card>
+                </Card> */}
         </div>
     );
 };
