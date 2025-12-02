@@ -26,7 +26,6 @@ const App: React.FC = () => {
             <AuthProvider>
                 <BrowserRouter>
                     <Routes>
-                        {/* Public routes */}
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
 
@@ -45,7 +44,6 @@ const App: React.FC = () => {
                             <Route path="links/edit/:id" element={<LinkForm />} />
                         </Route>
 
-                        {/* Redirect all other routes to home */}
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </BrowserRouter>
