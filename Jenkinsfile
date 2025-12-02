@@ -6,7 +6,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/chinnakorn32/link-hub-frontend.git',
-                    credentialsId: 'eb873424-abff-4600-9b31-d7c2a5d39236'
+                    credentialsId: 'bca258ab-2ecb-42f1-80bc-972c99a3c2a5'
             }
         }
 
