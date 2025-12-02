@@ -10,24 +10,6 @@ pipeline {
             }
         }
 
-        stage('Prepare SSL Certificates') {
-            steps {
-                sh '''
-                mkdir -p ssl
-                # Check if SSL files exist, if not create placeholders
-                if [ ! -f ssl/cert.pem ] || [ ! -f ssl/key.pem ]; then
-                    echo "Warning: SSL certificates not found in workspace"
-                    # Copy from a secure location on the server
-                    if [ -f /var/lib/docker/volumes/jenkins-data/_data/workspace/link-hub/link-hub-frontend/ssl/cert.pem ]; then
-                        cp /var/lib/docker/volumes/jenkins-data/_data/workspace/link-hub/link-hub-frontend/ssl/cert.pem ssl/
-                        cp /var/lib/docker/volumes/jenkins-data/_data/workspace/link-hub/link-hub-frontend/ssl/key.pem ssl/
-                    fi
-                fi
-                ls -la ssl/
-                '''
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t link-hub-frontend:latest .'
@@ -49,13 +31,7 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh '''
-                docker run -d --name link-hub-frontend \
-                    -p 3001:80 \
-                    -p 3002:443 \
-                    -v ${WORKSPACE}/ssl:/etc/nginx/ssl:ro \
-                    link-hub-frontend:latest
-                '''
+                sh 'docker run -d --name link-hub-frontend -p 3001:80 link-hub-frontend:latest'
             }
         }
     }
