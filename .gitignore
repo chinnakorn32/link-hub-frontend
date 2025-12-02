@@ -4,9 +4,9 @@ dist
 dist-ssr
 *.local
 
-# Environment variables
-.env
-package-lock.json
+# Allow environment templates to be committed
+.env.development
+.env.production
 
 # SSL Certificates (NEVER commit these!)
 ssl/
