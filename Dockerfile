@@ -8,6 +8,13 @@ RUN npm run build
 
 # production stage
 FROM nginx:alpine
+# copy frontend build
 COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
+
+# copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# expose both HTTP and HTTPS
+EXPOSE 80 443
+
 CMD ["nginx", "-g", "daemon off;"]

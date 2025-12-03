@@ -4,8 +4,11 @@ pipeline {
     environment {
         IMAGE = "link-hub-frontend"
         TAG = "${BUILD_NUMBER}"
-        PORT = "3001"
+        HTTP_PORT = "80"
+        HTTPS_PORT = "443"
         CONTAINER = "link-hub-frontend"
+        SSL_CERT_PATH = "/etc/letsencrypt/live/link-hub.example.com/fullchain.pem"
+        SSL_KEY_PATH = "/etc/letsencrypt/live/link-hub.example.com/privkey.pem"
     }
 
     stages {
@@ -33,12 +36,15 @@ pipeline {
             }
         }
 
-        stage('Run New Container') {
+        stage('Run New Container with SSL') {
             steps {
                 sh """
                 docker run -d \
                     --name ${CONTAINER} \
-                    -p ${PORT}:80 \
+                    -p ${HTTP_PORT}:80 \
+                    -p ${HTTPS_PORT}:443 \
+                    -v ${SSL_CERT_PATH}:/etc/ssl/certs/fullchain.pem:ro \
+                    -v ${SSL_KEY_PATH}:/etc/ssl/private/privkey.pem:ro \
                     ${IMAGE}:${TAG}
                 """
             }
