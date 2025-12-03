@@ -1,62 +1,48 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE = "link-hub-frontend"
-        TAG = "${BUILD_NUMBER}"
-        HTTP_PORT = "80"
-        HTTPS_PORT = "443"
-        CONTAINER = "link-hub-frontend"
-        SSL_CERT_PATH = "/etc/nginx/ssl/cloudflare-origin-cert.pem"
-        SSL_KEY_PATH = "/etc/nginx/ssl/cloudflare-origin-key.pem"
-    }
-
     stages {
         stage('Git Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/chinnakorn32/link-hub-frontend.git'
+                    url: 'https://github.com/chinnakorn32/link-hub-frontend.git',
+                    credentialsId: 'bca258ab-2ecb-42f1-80bc-972c99a3c2a5'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${IMAGE}:${TAG} -t ${IMAGE}:latest ."
+                sh 'docker build -t link-hub-frontend:latest .'
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                sh """
-                if [ \$(docker ps -aq -f name=${CONTAINER}) ]; then
-                    docker stop ${CONTAINER} || true
-                    docker rm ${CONTAINER} || true
-                fi
-                """
+                script {
+                    sh '''
+                    if [ $(docker ps -aq -f name=link-hub-frontend) ]; then
+                        docker stop link-hub-frontend || true
+                        docker rm link-hub-frontend || true
+                    fi
+                    '''
+                }
             }
         }
 
-        stage('Run New Container with SSL') {
+        stage('Run New Container') {
             steps {
-                sh """
-                docker run -d \
-                    --name ${CONTAINER} \
-                    -p ${HTTP_PORT}:80 \
-                    -p ${HTTPS_PORT}:443 \
-                    -v ${SSL_CERT_PATH}:/etc/nginx/ssl/cloudflare-origin-cert.pem:ro \
-                    -v ${SSL_KEY_PATH}:/etc/nginx/ssl/cloudflare-origin-key.pem:ro \
-                    ${IMAGE}:${TAG}
-                """
+                sh 'docker run -d --name link-hub-frontend -p 3001:80 link-hub-frontend:latest'
             }
         }
     }
 
     post {
-        success {
-            echo "🚀 Deployment Success!"
-        }
         failure {
-            echo "❌ Deployment Failed!"
+            echo 'Pipeline failed! Cleaning up...'
+            sh 'docker system prune -f || true'
+        }
+        success {
+            echo 'Deployment successful!'
         }
     }
 }
