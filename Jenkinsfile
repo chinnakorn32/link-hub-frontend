@@ -54,7 +54,6 @@ pipeline {
     post {
         success {
             echo "🚀 Deployment Success!"
-            sh "docker system prune -f"
         }
         failure {
             echo "❌ Deployment Failed!"
