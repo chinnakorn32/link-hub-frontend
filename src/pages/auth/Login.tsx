@@ -28,20 +28,20 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 p-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 p-4 md:p-6">
             <div className="w-full max-w-md">
                 {/* Logo and Title */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg mb-4">
-                        <LinkOutlined className="text-5xl text-blue-600" />
+                <div className="text-center mb-6 md:mb-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-white rounded-full shadow-lg mb-3 md:mb-4">
+                        <LinkOutlined className="text-4xl md:text-5xl text-blue-600" />
                     </div>
-                    <h1 className="text-4xl font-bold text-white mb-2">Link Hub</h1>
-                    <p className="text-blue-100 text-lg">Welcome back! Please login to your account</p>
+                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Link Hub</h1>
+                    <p className="text-blue-100 text-base md:text-lg px-4">Welcome back! Please login to your account</p>
                 </div>
 
                 {/* Login Card */}
                 <Card className="shadow-2xl rounded-2xl">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6 text-center">Login</h2>
 
                     <Form
                         name="login"
@@ -80,7 +80,7 @@ const Login: React.FC = () => {
                                 htmlType="submit"
                                 size="large"
                                 loading={loading}
-                                className="w-full rounded-lg h-12 text-lg font-semibold bg-gradient-to-r from-blue-500 to-blue-600 border-0 hover:from-blue-600 hover:to-blue-700"
+                                className="w-full rounded-lg h-10 md:h-12 text-base md:text-lg font-semibold bg-gradient-to-r from-blue-500 to-blue-600 border-0 hover:from-blue-600 hover:to-blue-700"
                             >
                                 Login
                             </Button>

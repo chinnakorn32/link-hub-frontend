@@ -45,9 +45,9 @@ const Sidebar: React.FC = () => {
             breakpoint="lg"
             collapsedWidth="0"
         >
-            <div className="h-16 flex items-center justify-center border-b border-blue-700">
-                <LinkOutlined className="text-3xl text-white" />
-                <span className="ml-3 text-white text-xl font-bold">Link Hub</span>
+            <div className="h-16 flex items-center justify-center border-b border-blue-700 px-4">
+                <LinkOutlined className="text-2xl md:text-3xl text-white" />
+                <span className="ml-2 md:ml-3 text-white text-lg md:text-xl font-bold">Link Hub</span>
             </div>
             <Menu
                 mode="inline"

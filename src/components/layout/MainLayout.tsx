@@ -15,7 +15,7 @@ const MainLayout: React.FC = () => {
             <Sidebar />
             <Layout>
                 <Header />
-                <Content className="m-6 p-6 bg-gray-50 rounded-lg shadow-sm">
+                <Content className="m-3 md:m-6 p-4 md:p-6 bg-gray-50 rounded-lg shadow-sm">
                     <Outlet />
                 </Content>
             </Layout>

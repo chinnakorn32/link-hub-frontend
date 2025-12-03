@@ -216,20 +216,21 @@ const LinkList: React.FC = () => {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
+        <div className="space-y-4 md:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">All Links</h2>
-                    <p className="text-gray-600">Manage your link collection</p>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">All Links</h2>
+                    <p className="text-sm md:text-base text-gray-600">Manage your link collection</p>
                 </div>
                 <Button
                     type="primary"
                     size="large"
                     icon={<PlusOutlined />}
                     onClick={() => navigate('/links/new')}
-                    className="shadow-md"
+                    className="shadow-md w-full sm:w-auto"
                 >
-                    Add New Link
+                    <span className="hidden sm:inline">Add New Link</span>
+                    <span className="sm:hidden">Add Link</span>
                 </Button>
             </div>
 
@@ -265,13 +266,13 @@ const LinkList: React.FC = () => {
                     rowKey="id"
                     loading={loading}
                     pagination={pagination}
-                    className="overflow-x-auto"
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
 
             {/* View Link Modal */}
             <Modal
-                title={<span className="text-xl font-semibold">Details</span>}
+                title={<span className="text-lg md:text-xl font-semibold">Details</span>}
                 open={viewModalVisible}
                 onCancel={handleCloseModal}
                 footer={[
@@ -290,7 +291,8 @@ const LinkList: React.FC = () => {
                         Close
                     </Button>,
                 ]}
-                width={700}
+                width={window.innerWidth < 768 ? '95%' : 700}
+                style={window.innerWidth < 768 ? { top: 20, maxWidth: 'calc(100% - 16px)' } : {}}
             >
                 {selectedLink && (
                     <div className="space-y-4">

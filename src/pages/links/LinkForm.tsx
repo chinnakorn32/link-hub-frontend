@@ -90,19 +90,21 @@ const LinkForm: React.FC = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto">
-            <div className="mb-6">
+        <div className="max-w-full md:max-w-2xl lg:max-w-3xl mx-auto px-4 md:px-0">
+            <div className="mb-4 md:mb-6">
                 <Button
                     icon={<ArrowLeftOutlined />}
                     onClick={() => navigate('/links')}
-                    className="mb-4"
+                    className="mb-3 md:mb-4"
+                    size="small"
                 >
-                    Back to Links
+                    <span className="hidden sm:inline">Back to Links</span>
+                    <span className="sm:hidden">Back</span>
                 </Button>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">
                     {isEditMode ? 'Edit Link' : 'Add New Link'}
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-sm md:text-base text-gray-600">
                     {isEditMode
                         ? 'Update the link information below'
                         : 'Fill in the details to create a new link'}
@@ -190,14 +192,14 @@ const LinkForm: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item className="mb-0">
-                        <div className="flex gap-3">
+                        <div className="flex flex-col sm:flex-row gap-3">
                             <Button
                                 type="primary"
                                 htmlType="submit"
                                 size="large"
                                 icon={<SaveOutlined />}
                                 loading={submitting}
-                                className="flex-1 sm:flex-none"
+                                className="w-full sm:w-auto"
                             >
                                 {isEditMode ? 'Update Link' : 'Create Link'}
                             </Button>
@@ -205,6 +207,7 @@ const LinkForm: React.FC = () => {
                                 size="large"
                                 onClick={() => navigate('/links')}
                                 disabled={submitting}
+                                className="w-full sm:w-auto"
                             >
                                 Cancel
                             </Button>
@@ -214,7 +217,7 @@ const LinkForm: React.FC = () => {
             </Card>
 
             {/* Preview Card */}
-                {/* <Card
+            {/* <Card
                     title={<span className="font-semibold">Preview</span>}
                     className="shadow-md mt-6"
                 >

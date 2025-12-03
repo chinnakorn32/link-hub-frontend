@@ -87,10 +87,10 @@ const Dashboard: React.FC = () => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h2>
-                <p className="text-gray-600">Welcome to Link Hub Management System</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">Dashboard</h2>
+                <p className="text-sm md:text-base text-gray-600">Welcome to Link Hub Management System</p>
             </div>
 
             {/* Statistics Cards */}
@@ -129,10 +129,11 @@ const Dashboard: React.FC = () => {
 
             {/* Recent Links Table */}
             <Card
-                title={<span className="text-xl font-semibold">Recent Links</span>}
+                title={<span className="text-lg md:text-xl font-semibold">Recent Links</span>}
                 extra={
-                    <Button type="primary" onClick={() => navigate('/links')}>
-                        View All
+                    <Button type="primary" size="small" className="md:text-base" onClick={() => navigate('/links')}>
+                        <span className="hidden sm:inline">View All</span>
+                        <span className="sm:hidden">All</span>
                     </Button>
                 }
                 className="shadow-md"
@@ -142,19 +143,20 @@ const Dashboard: React.FC = () => {
                     dataSource={recentLinks}
                     rowKey="id"
                     pagination={false}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
 
             {/* Categories Overview */}
             <Card
-                title={<span className="text-xl font-semibold">Categories</span>}
+                title={<span className="text-lg md:text-xl font-semibold">Categories</span>}
                 className="shadow-md"
             >
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 md:gap-3">
                     {categories.map((category) => (
                         <div
                             key={category}
-                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                            className="px-3 md:px-4 py-1.5 md:py-2 text-sm md:text-base bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                             onClick={() => navigate('/links', { state: { category } })}
                         >
                             {category}
