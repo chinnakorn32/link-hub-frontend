@@ -1,48 +1,57 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE = "link-hub-frontend"
+        TAG = "${BUILD_NUMBER}"
+        PORT = "3001"
+        CONTAINER = "link-hub-frontend"
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/chinnakorn32/link-hub-frontend.git',
-                    credentialsId: 'bca258ab-2ecb-42f1-80bc-972c99a3c2a5'
+                    url: 'https://github.com/chinnakorn32/link-hub-frontend.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t link-hub-frontend:latest .'
+                sh "docker build -t ${IMAGE}:${TAG} -t ${IMAGE}:latest ."
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                script {
-                    sh '''
-                    if [ $(docker ps -aq -f name=link-hub-frontend) ]; then
-                        docker stop link-hub-frontend || true
-                        docker rm link-hub-frontend || true
-                    fi
-                    '''
-                }
+                sh """
+                if [ \$(docker ps -aq -f name=${CONTAINER}) ]; then
+                    docker stop ${CONTAINER} || true
+                    docker rm ${CONTAINER} || true
+                fi
+                """
             }
         }
 
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name link-hub-frontend -p 3001:80 link-hub-frontend:latest'
+                sh """
+                docker run -d \
+                    --name ${CONTAINER} \
+                    -p ${PORT}:80 \
+                    ${IMAGE}:${TAG}
+                """
             }
         }
     }
 
     post {
-        failure {
-            echo 'Pipeline failed! Cleaning up...'
-            sh 'docker system prune -f || true'
-        }
         success {
-            echo 'Deployment successful!'
+            echo "🚀 Deployment Success!"
+            sh "docker system prune -f"
+        }
+        failure {
+            echo "❌ Deployment Failed!"
         }
     }
 }
