@@ -7,8 +7,8 @@ pipeline {
         HTTP_PORT = "80"
         HTTPS_PORT = "443"
         CONTAINER = "link-hub-frontend"
-        SSL_CERT_PATH = "/etc/letsencrypt/live/link-hub.example.com/fullchain.pem"
-        SSL_KEY_PATH = "/etc/letsencrypt/live/link-hub.example.com/privkey.pem"
+        SSL_CERT_PATH = "/etc/nginx/ssl/cloudflare-origin-cert.pem"
+        SSL_KEY_PATH = "/etc/nginx/ssl/cloudflare-origin-key.pem"
     }
 
     stages {
@@ -43,8 +43,8 @@ pipeline {
                     --name ${CONTAINER} \
                     -p ${HTTP_PORT}:80 \
                     -p ${HTTPS_PORT}:443 \
-                    -v ${SSL_CERT_PATH}:/etc/ssl/certs/fullchain.pem:ro \
-                    -v ${SSL_KEY_PATH}:/etc/ssl/private/privkey.pem:ro \
+                    -v ${SSL_CERT_PATH}:/etc/nginx/ssl/cloudflare-origin-cert.pem:ro \
+                    -v ${SSL_KEY_PATH}:/etc/nginx/ssl/cloudflare-origin-key.pem:ro \
                     ${IMAGE}:${TAG}
                 """
             }
