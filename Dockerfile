@@ -1,20 +1,19 @@
 # build stage
-FROM node:20 as build
+FROM node:20 AS build
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
 COPY . .
 RUN npm run build
 
 # production stage
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-# copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# copy SSL (optional)
+# SSL (optional)
 COPY ssl /etc/nginx/ssl
 
 # copy frontend build
