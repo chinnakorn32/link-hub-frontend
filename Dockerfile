@@ -11,7 +11,7 @@ FROM nginx:stable-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY ssl /etc/nginx/ssl   # ถ้าใช้วิธี COPY
+COPY ssl /etc/nginx/ssl
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
