@@ -12,9 +12,12 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t link-hub-frontend:latest .'
+                timeout(time: 10, unit: 'MINUTES') {
+                    sh 'docker build -t link-hub-frontend:latest .'
+                }
             }
         }
+
 
         stage('Stop Old Container') {
             steps {
