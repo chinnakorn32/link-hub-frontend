@@ -31,9 +31,16 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh 'docker run -d --name link-hub-frontend -p 3001:80 link-hub-frontend:latest'
+                sh '''
+                    docker run -d --name link-hub-frontend \
+                    -p 80:80 \
+                    -p 443:443 \
+                    -v /var/ssl:/etc/nginx/ssl \
+                    link-hub-frontend:latest
+                '''
             }
         }
+
     }
 
     post {

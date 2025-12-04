@@ -1,4 +1,3 @@
-# build stage
 FROM node:20 AS build
 WORKDIR /app
 
@@ -8,15 +7,12 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# production stage
 FROM nginx:stable-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# SSL (optional)
-COPY ssl /etc/nginx/ssl
+COPY ssl /etc/nginx/ssl   # ถ้าใช้วิธี COPY
 
-# copy frontend build
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
